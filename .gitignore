@@ -1,0 +1,19 @@
+# created by virtualenv automatically
+baselines/*
+data/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/data/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_huozi/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e1/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e2/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e3/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e4/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e5/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e6/*
+llm/BenTsao/bloom-7b1/*
+llm/BenTsao/huozi/*
+Prompt-BioEL-main/dataset/*
+Prompt-BioEL-main/www-bert-chinese/*
+lib/*
+.vscode/*
+bin/*
+*.log
