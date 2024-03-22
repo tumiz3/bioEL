@@ -9,10 +9,15 @@ llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e3/*
 llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e4/*
 llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e5/*
 llm/BenTsao/Huatuo-Llama-Med-Chinese/fine_tune_BenTsao-e6/*
+llm/BenTsao/Lora/*
+llm/BenTsao/wandb/*
+llm/BenTsao/Huatuo-Llama-Med-Chinese/wandb/*
 llm/bloom-7b1/*
 llm/huozi/*
 Prompt-BioEL-main/dataset/*
 Prompt-BioEL-main/www-bert-chinese/*
+Prompt-BioEL-main/model_disambiguation/*
+Prompt-BioEL-main/model_retriever/*
 lib/*
 .vscode/*
 bin/*
