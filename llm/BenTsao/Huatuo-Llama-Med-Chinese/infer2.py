@@ -11,8 +11,8 @@ from transformers import GenerationConfig, AutoModelForCausalLM, AutoTokenizer
 from utils.prompter import Prompter
 import pickle
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+os.environ["CUDA_VISIBLE_DEVICES"] = "4"
+device=torch.device("cuda:4" if torch.cuda.is_available() else "cpu")
 
 def load_instruction(instruct_dir):
     input_data = []
@@ -29,10 +29,10 @@ def main(
     load_8bit: bool = False,
     base_model: str = "../../huozi/model_weight/",
     # the infer data, if not exists, infer the default instructions in code
-    instruct_dir: str = "./data/new_aier_data/instructions/test_instructions.json",
+    instruct_dir: str = "../../../distillation_from_gpt3.5_to_BenTsao/data/test_instructions.json",
     use_lora: bool = True,
     lora_weights1: str = "../Lora",
-    lora_weights2: str="./fine_tune_BenTsao-e3/checkpoint-96",
+    lora_weights2: str="../../../distillation_from_gpt3.5_to_BenTsao/train-864",
  
     # The prompt template to use, will default to med_template.
     prompt_template: str = "med_template",
@@ -122,7 +122,7 @@ def main(
             print("###model output###")
             print(model_output)
             results.append([output,model_output])
-        with open("./data/new_aier_data/trueResults.json","w") as results_json:
+        with open("../../../distillation_from_gpt3.5_to_BenTsao/hyperResult/Results_1000.json","w") as results_json:
             for result in results:
                 results_json.write(json.dumps(result,ensure_ascii=False))
                 results_json.write("\n")

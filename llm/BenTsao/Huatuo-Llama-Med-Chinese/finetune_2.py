@@ -1,6 +1,7 @@
 import os
 import sys
 from typing import List
+os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 import fire
 import wandb
@@ -15,8 +16,6 @@ Unused imports:
 import torch.nn as nn
 import bitsandbytes as bnb
 """
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 from peft import (
     LoraConfig,
@@ -61,9 +60,12 @@ def train(
     wandb_run_name: str = "",
     wandb_watch: str = "",  # options: false | gradients | all
     wandb_log_model: str = "",  # options: false | true
+    gpus: str="5",
     resume_from_checkpoint: str = None,  # either training checkpoint or final adapter
     prompt_template_name: str = "alpaca",  # The prompt template to use, will default to alpaca.
 ):
+    
+    device = torch.device(f'cuda:{gpus}' if torch.cuda.is_available() else 'cpu')
     if int(os.environ.get("LOCAL_RANK", 0)) == 0:
         print(
             f"Training Alpaca-LoRA model with params:\n"
@@ -96,17 +98,18 @@ def train(
 
     prompter = Prompter(prompt_template_name)
 
-    device_map=None
-    world_size = int(os.environ.get("WORLD_SIZE", 1))
-    ddp = world_size != 1
-    if ddp:
-        device_map = {"": int(os.environ.get("LOCAL_RANK") or 0)}
-        gradient_accumulation_steps = gradient_accumulation_steps // world_size
+    
+    # world_size = int(os.environ.get("WORLD_SIZE", 1))
+    # ddp = world_size != 1
+    # if ddp:
+    #     device_map = {"": int(os.environ.get("LOCAL_RANK") or 0)}
+    #     gradient_accumulation_steps = gradient_accumulation_steps // world_size
 
-    # Check if parameter passed or if set within environ
+    #Check if parameter passed or if set within environ
     use_wandb = len(wandb_project) > 0 or (
         "WANDB_PROJECT" in os.environ and len(os.environ["WANDB_PROJECT"]) > 0
     )
+    device_map=None
     # Only overwrite environ if wandb param passed
     if len(wandb_project) > 0:
         os.environ["WANDB_PROJECT"] = wandb_project
@@ -120,9 +123,9 @@ def train(
         load_in_8bit=False,
         torch_dtype=torch.float16,
         device_map=device_map,
-    )
+    ).to(device)
 
-    #model.to(device)
+    # model.to(device) 
     model = PeftModel.from_pretrained(
             model,
             lora_weights,
@@ -234,10 +237,10 @@ def train(
         train_data = data["train"].shuffle().map(generate_and_tokenize_prompt)
         val_data = None
 
-    if not ddp and torch.cuda.device_count() > 1:
-        # keeps Trainer from trying its own DataParallelism when more than 1 gpu is available
-        model.is_parallelizable = True
-        model.model_parallel = True
+    # if not ddp and torch.cuda.device_count() > 1:
+    #     # keeps Trainer from trying its own DataParallelism when more than 1 gpu is available
+    #     model.is_parallelizable = False
+    #     model.model_parallel = False
 
     class SavePeftModelCallback(TrainerCallback):
         def on_save(
@@ -274,7 +277,7 @@ def train(
             output_dir=output_dir,
             save_total_limit=5,
             load_best_model_at_end=True if val_set_size > 0 else False,
-            ddp_find_unused_parameters=False if ddp else None,
+            # ddp_find_unused_parameters=None,
             group_by_length=group_by_length,
             report_to="wandb" if use_wandb else None,
             run_name=wandb_run_name if use_wandb else None,

@@ -5,12 +5,15 @@ A dedicated helper to manage templates and prompt building.
 import json
 import os.path as osp
 from typing import Union
+import os
+
 
 
 class Prompter(object):
     __slots__ = ("template", "_verbose")
 
     def __init__(self, template_name: str = "", verbose: bool = False):
+        print (os.path.abspath(os.path.dirname(__file__)))
         self._verbose = verbose
         if not template_name:
             # Enforce the default here, so the constructor can be called with '' and will not break.

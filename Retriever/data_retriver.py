@@ -5,7 +5,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
 import faiss
-from utils import sample_range_excluding
+from .utils import sample_range_excluding
 
 
 class EntitySet(Dataset):

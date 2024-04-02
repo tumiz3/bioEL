@@ -5,7 +5,7 @@
       <paths name="aiyihao@10.0.87.17:22 key">
         <serverdata>
           <mappings>
-            <mapping deploy="/bioEL/bioEL/" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="bioEL/bioEL/entity_linking_for_eyes/" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

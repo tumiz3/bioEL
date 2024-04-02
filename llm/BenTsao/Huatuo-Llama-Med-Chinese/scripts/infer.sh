@@ -7,7 +7,7 @@
 python infer2.py \
     --base_model '../../huozi/model_weight/' \
     --lora_weights1 '../Lora' \
-    --lora_weights2 './fine_tune_BenTsao-e6/checkpoint-64' \
+    --lora_weights2 '../../../distillation_from_gpt3.5_to_BenTsao/train-e1/checkpoint-864' \
     --use_lora True \
-    --instruct_dir './data/new_aier_data/instructions/another_test_instructions.json' \
+    --instruct_dir '../../../distillation_from_gpt3.5_to_BenTsao/data/test_instructions.json' \
     --prompt_template 'med_template'
